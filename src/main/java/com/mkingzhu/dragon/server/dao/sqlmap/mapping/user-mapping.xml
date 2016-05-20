@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mkingzhu.dragon.server.dao.UserDao">
+  <resultMap id="USER-DO" type="com.mkingzhu.dragon.server.dao.dataobject.UserDo" >
+    <result column="open_id" property="openId" jdbcType="VARCHAR" />
+    <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+    <result column="time" property="time" jdbcType="TIME" />
+    <result column="score" property="score" jdbcType="BIGINT" />
+    <result column="credit" property="credit" jdbcType="BIGINT" />
+  </resultMap>
+
+  <sql id="USER-DO-COLUMN-LIST" >
+    open_id
+  </sql>
+
+  <insert id="save" parameterType="com.mkingzhu.dragon.server.dao.dataobject.UserDo">
+    insert into users(
+      open_id, mobile, username, province, city, outer_address, inner_address, time, score, credit
+    )values(
+      #{openId}, #{mobile}, #{username}, #{province}, #{city}, #{outerAddress}, #{innerAddress}, #{time}, #{score}, #{credit}
+    )
+  </insert>
+
+  <select id="get" resultMap="USER-DO">
+    select <include refid="USER-DO-COLUMN-LIST" />
+    from users where open_id = #{openId} and date(time) = date(#{time})
+  </select>
+</mapper>
